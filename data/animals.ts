@@ -15,9 +15,14 @@ export interface AnimalPoint {
   animals: string[];
   peakMonths?: number[];
   isPeak?: boolean;
+  afterDark?: string | boolean;
+  bestAt?: string;
+  hours?: any;
+  indoor?: boolean;
   discovery?: {
     query: string;
     match: string[];
+    exclude?: string[];
   };
   defaultVideoId?: string;
   condition?: string;

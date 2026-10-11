@@ -12,6 +12,7 @@ export interface VehiclePoint {
   silent?: boolean;
   category: 'aviation' | 'rail' | 'maritime';
   subjects: string[];
+  rail?: any;
   discovery?: {
     query: string;
     match: string[];
