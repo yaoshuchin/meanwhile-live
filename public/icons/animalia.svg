@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg-animal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="paw-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0fdf4" />
+    </linearGradient>
+    <filter id="paw-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#022c22" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Squircle App Icon Base -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-animal)" />
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="#6ee7b7" stroke-width="2" stroke-opacity="0.3" />
+
+  <!-- Nature Leaf Sprout in Top Right -->
+  <g transform="translate(365, 85) rotate(25)" opacity="0.95">
+    <path d="M 0 45 C 0 20 20 0 45 0 C 45 25 25 45 0 45 Z" fill="#6ee7b7" />
+    <path d="M 0 45 C 5 28 22 10 45 0" stroke="#047857" stroke-width="2" fill="none" />
+    <path d="M 5 50 C -12 35 -5 18 12 10 C 12 28 5 45 5 50 Z" fill="#a7f3d0" />
+  </g>
+
+  <!-- Big Central Paw Print -->
+  <g filter="url(#paw-shadow)">
+    <!-- 4 Toe Pads -->
+    <!-- Toe 1: Far Left -->
+    <ellipse cx="138" cy="225" rx="34" ry="46" transform="rotate(-28 138 225)" fill="url(#paw-fill)" />
+    <!-- Toe 2: Inner Left -->
+    <ellipse cx="212" cy="162" rx="36" ry="52" transform="rotate(-9 212 162)" fill="url(#paw-fill)" />
+    <!-- Toe 3: Inner Right -->
+    <ellipse cx="300" cy="162" rx="36" ry="52" transform="rotate(9 300 162)" fill="url(#paw-fill)" />
+    <!-- Toe 4: Far Right -->
+    <ellipse cx="374" cy="225" rx="34" ry="46" transform="rotate(28 374 225)" fill="url(#paw-fill)" />
+
+    <!-- Main Pad (Metacarpal Pad) - Balanced Organic Shape -->
+    <path d="M 256 295
+             C 285 280 335 272 360 305
+             C 382 334 380 375 352 405
+             C 325 432 290 435 256 422
+             C 222 435 187 432 160 405
+             C 132 375 130 334 152 305
+             C 177 272 227 280 256 295 Z"
+          fill="url(#paw-fill)" />
+  </g>
+
+  <!-- Subtle Inner Paw Detail / Soft Tint -->
+  <ellipse cx="256" cy="370" rx="42" ry="24" fill="#a7f3d0" opacity="0.35" />
+</svg>
