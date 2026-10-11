@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { VEHICLE_CAMERAS } from '@/data/vehicles';
 
+export function generateStaticParams() {
+  return VEHICLE_CAMERAS.map((c) => ({ camId: c.id }));
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ camId: string }> }

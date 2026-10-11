@@ -7,6 +7,12 @@ const MUSIC_STREAMS: Record<string, string> = {
   'music-classical': '4xDzrJKXOOY', // Classical radio
 };
 
+export function generateStaticParams() {
+  const musicIds = Object.keys(MUSIC_STREAMS).map((camId) => ({ camId }));
+  const camIds = CAMERAS.map((c) => ({ camId: c.id }));
+  return [...musicIds, ...camIds];
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { camId: string } }

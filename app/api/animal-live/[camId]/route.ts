@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { ANIMAL_CAMERAS } from '@/data/animals';
 
+export function generateStaticParams() {
+  return ANIMAL_CAMERAS.map((c) => ({ camId: c.id }));
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ camId: string }> }
