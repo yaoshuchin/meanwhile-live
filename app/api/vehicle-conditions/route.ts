@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server';
 import { VEHICLE_CAMERAS } from '@/data/vehicles';
 import SunCalc from 'suncalc';
 
-export const dynamic = 'force-dynamic';
-
 function getSolarCondition(lat: number, lng: number, now: Date): string {
   try {
     const sunPos = SunCalc.getPosition(now, lat, lng);
