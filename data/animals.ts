@@ -14,6 +14,7 @@ export interface AnimalPoint {
   category: 'penguin' | 'bear' | 'savanna' | 'bird' | 'ocean' | 'zoo' | 'forest';
   animals: string[];
   peakMonths?: number[];
+  isPeak?: boolean;
   discovery?: {
     query: string;
     match: string[];
