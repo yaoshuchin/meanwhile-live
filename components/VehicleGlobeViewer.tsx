@@ -4,6 +4,7 @@ import '@/app/three-polyfill';
 import { useEffect, useRef } from 'react';
 import Globe from 'globe.gl';
 import * as THREE from 'three';
+import { withBasePath } from '@/lib/base-path';
 import type { VehiclePoint } from '@/data/vehicles';
 
 interface VehicleGlobeViewerProps {
@@ -116,7 +117,7 @@ export default function VehicleGlobeViewer({
       .atmosphereAltitude(0.18);
 
     // Load GeoJSON for country outlines
-    fetch('/geo/countries-110m-v2.geo.json')
+    fetch(withBasePath('/geo/countries-110m-v2.geo.json'))
       .then((res) => res.json())
       .then((geoData) => {
         globe
@@ -131,8 +132,8 @@ export default function VehicleGlobeViewer({
     // Load Earth Day & Night Textures with Custom Shader
     const textureLoader = new THREE.TextureLoader();
     Promise.all([
-      textureLoader.loadAsync('/textures/earth-day-v2.jpg'),
-      textureLoader.loadAsync('/textures/earth-night-v2.jpg'),
+      textureLoader.loadAsync(withBasePath('/textures/earth-day-v2.jpg')),
+      textureLoader.loadAsync(withBasePath('/textures/earth-night-v2.jpg')),
     ]).then(([dayTex, nightTex]) => {
       const shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {

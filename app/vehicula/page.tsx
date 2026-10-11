@@ -11,6 +11,8 @@ import VehicleControlsBar from '@/components/VehicleControlsBar';
 import AmbientMixer from '@/components/AmbientMixer';
 import HelpModal from '@/components/HelpModal';
 import CoffeeModal from '@/components/CoffeeModal';
+import { computeVehicleConditions } from '@/lib/client-conditions';
+import { withBasePath } from '@/lib/base-path';
 import type { VehiclePoint } from '@/data/vehicles';
 
 const VehicleGlobeViewer = dynamic(
@@ -51,8 +53,20 @@ function VehiculaContent() {
 
   // Fetch Vehicle Data
   useEffect(() => {
-    fetch('/api/vehicle-conditions')
-      .then((res) => res.json())
+    const initialCams = computeVehicleConditions();
+    setCameras(initialCams);
+    if (queryType && queryType !== 'all') {
+      const match = initialCams.find(
+        (c: VehiclePoint) => c.category === queryType
+      );
+      if (match) setActiveCam(match);
+    }
+
+    fetch(withBasePath('/api/vehicle-conditions'))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.cams) {
           setCameras(data.cams);
@@ -64,7 +78,9 @@ function VehiculaContent() {
           }
         }
       })
-      .catch((err) => console.warn('Fetch vehicle conditions error:', err));
+      .catch(() => {
+        // Static export mode: initialCams already applied cleanly
+      });
   }, [queryType]);
 
   // Focus Timer countdown

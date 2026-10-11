@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { X, ExternalLink, MapPin, Volume2 } from 'lucide-react';
+import { withBasePath } from '@/lib/base-path';
 import type { AnimalPoint } from '@/data/animals';
 
 interface AnimalCamModalProps {
@@ -11,7 +12,7 @@ interface AnimalCamModalProps {
 
 export default function AnimalCamModal({ cam, onClose }: AnimalCamModalProps) {
   const [videoId, setVideoId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!cam) {
@@ -19,21 +20,20 @@ export default function AnimalCamModal({ cam, onClose }: AnimalCamModalProps) {
       return;
     }
 
-    setLoading(true);
-    fetch(`/api/animal-live/${cam.id}`)
-      .then((res) => res.json())
+    setVideoId(cam.defaultVideoId || '3bcKXFyybQA');
+    fetch(withBasePath(`/api/animal-live/${cam.id}`))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.videoId) {
           setVideoId(data.videoId);
-        } else {
-          setVideoId(cam.defaultVideoId || '3bcKXFyybQA');
         }
       })
-      .catch((err) => {
-        console.warn('Load animal live failed:', err);
-        setVideoId(cam.defaultVideoId || '3bcKXFyybQA');
-      })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        // Fallback defaultVideoId is already set
+      });
   }, [cam]);
 
   if (!cam) return null;

@@ -12,6 +12,8 @@ import TimeTable from '@/components/TimeTable';
 import HelpModal from '@/components/HelpModal';
 import SuggestModal from '@/components/SuggestModal';
 import CoffeeModal from '@/components/CoffeeModal';
+import { computeCityConditions } from '@/lib/client-conditions';
+import { withBasePath } from '@/lib/base-path';
 import type { CamPoint } from '@/components/GlobeViewer';
 
 // Load GlobeViewer strictly on client side
@@ -72,20 +74,32 @@ function HomeContent() {
 
   // Fetch Conditions & Cameras
   useEffect(() => {
+    // Immediate offline-first computation so globe appears without delay
+    const initialCams = computeCityConditions();
+    setCameras(initialCams);
+    if (queryCamId) {
+      const found = initialCams.find((c: CamPoint) => c.id === queryCamId);
+      if (found) setActiveCam(found);
+    }
+
     setLoadingWeather(true);
-    fetch('/api/conditions')
-      .then((res) => res.json())
+    fetch(withBasePath('/api/conditions'))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.cams) {
           setCameras(data.cams);
-          // If URL has query camId, select it
           if (queryCamId) {
             const found = data.cams.find((c: CamPoint) => c.id === queryCamId);
             if (found) setActiveCam(found);
           }
         }
       })
-      .catch((err) => console.warn('Fetch conditions error:', err))
+      .catch(() => {
+        // Static export mode: initialCams already applied cleanly
+      })
       .finally(() => setLoadingWeather(false));
   }, [queryCamId]);
 

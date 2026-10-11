@@ -3,6 +3,7 @@
 import '@/app/three-polyfill';
 import { useEffect, useRef } from 'react';
 import Globe from 'globe.gl';
+import { withBasePath } from '@/lib/base-path';
 
 export interface CamPoint {
   id: string;
@@ -61,7 +62,7 @@ export default function GlobeViewer({
       .atmosphereAltitude(0.18);
 
     // Load GeoJSON for country outlines
-    fetch('/geo/countries-110m-v2.geo.json')
+    fetch(withBasePath('/geo/countries-110m-v2.geo.json'))
       .then((res) => res.json())
       .then((geoData) => {
         globe

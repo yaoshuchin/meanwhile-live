@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { X, Heart, ExternalLink, MapPin, Volume2, Radio } from 'lucide-react';
+import { withBasePath } from '@/lib/base-path';
 import { CamPoint } from './GlobeViewer';
 
 interface CamModalProps {
@@ -18,23 +19,26 @@ export default function CamModal({
   onToggleFavorite,
 }: CamModalProps) {
   const [videoId, setVideoId] = useState<string>('');
-  const [loadingStream, setLoadingStream] = useState<boolean>(true);
+  const [loadingStream, setLoadingStream] = useState<boolean>(false);
 
   useEffect(() => {
     if (!cam) return;
-    setLoadingStream(true);
-    setVideoId(cam.defaultVideoId);
+    setVideoId(cam.defaultVideoId || 'jfKfPfyJRdk');
 
-    // Fetch dynamic live stream id
-    fetch(`/api/live/${cam.id}`)
-      .then((res) => res.json())
+    // Attempt dynamic live stream id if backend API is present
+    fetch(withBasePath(`/api/live/${cam.id}`))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.videoId) {
           setVideoId(data.videoId);
         }
       })
-      .catch((err) => console.warn('Stream fetch error:', err))
-      .finally(() => setLoadingStream(false));
+      .catch(() => {
+        // Fallback defaultVideoId is already active
+      });
   }, [cam]);
 
   if (!cam) return null;

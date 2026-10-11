@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { X, ExternalLink, MapPin } from 'lucide-react';
+import { withBasePath } from '@/lib/base-path';
 import type { VehiclePoint } from '@/data/vehicles';
 
 interface VehicleCamModalProps {
@@ -11,7 +12,7 @@ interface VehicleCamModalProps {
 
 export default function VehicleCamModal({ cam, onClose }: VehicleCamModalProps) {
   const [videoId, setVideoId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!cam) {
@@ -19,21 +20,20 @@ export default function VehicleCamModal({ cam, onClose }: VehicleCamModalProps) 
       return;
     }
 
-    setLoading(true);
-    fetch(`/api/vehicle-live/${cam.id}`)
-      .then((res) => res.json())
+    setVideoId(cam.defaultVideoId || 'jfKfPfyJRdk');
+    fetch(withBasePath(`/api/vehicle-live/${cam.id}`))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.videoId) {
           setVideoId(data.videoId);
-        } else {
-          setVideoId(cam.defaultVideoId || 'jfKfPfyJRdk');
         }
       })
-      .catch((err) => {
-        console.warn('Load vehicle live failed:', err);
-        setVideoId(cam.defaultVideoId || 'jfKfPfyJRdk');
-      })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        // Fallback defaultVideoId is already set
+      });
   }, [cam]);
 
   if (!cam) return null;

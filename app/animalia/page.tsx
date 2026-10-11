@@ -11,6 +11,8 @@ import AnimalControlsBar from '@/components/AnimalControlsBar';
 import AmbientMixer from '@/components/AmbientMixer';
 import HelpModal from '@/components/HelpModal';
 import CoffeeModal from '@/components/CoffeeModal';
+import { computeAnimalConditions } from '@/lib/client-conditions';
+import { withBasePath } from '@/lib/base-path';
 import type { AnimalPoint } from '@/data/animals';
 
 const AnimalGlobeViewer = dynamic(
@@ -51,12 +53,23 @@ function AnimaliaContent() {
 
   // Fetch Animal Data
   useEffect(() => {
-    fetch('/api/animal-conditions')
-      .then((res) => res.json())
+    const initialCams = computeAnimalConditions();
+    setCameras(initialCams);
+    if (queryAnimal && queryAnimal !== 'all') {
+      const match = initialCams.find(
+        (c: AnimalPoint) => c.category === queryAnimal
+      );
+      if (match) setActiveCam(match);
+    }
+
+    fetch(withBasePath('/api/animal-conditions'))
+      .then((res) => {
+        if (!res.ok) throw new Error('API unavailable on static host');
+        return res.json();
+      })
       .then((data) => {
         if (data.cams) {
           setCameras(data.cams);
-          // If query animal, select first matching camera
           if (queryAnimal && queryAnimal !== 'all') {
             const match = data.cams.find(
               (c: AnimalPoint) => c.category === queryAnimal
@@ -65,7 +78,9 @@ function AnimaliaContent() {
           }
         }
       })
-      .catch((err) => console.warn('Fetch animal conditions error:', err));
+      .catch(() => {
+        // Static export mode: initialCams already applied cleanly
+      });
   }, [queryAnimal]);
 
   // Focus Timer countdown
