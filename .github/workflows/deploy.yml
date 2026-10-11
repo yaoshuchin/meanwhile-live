@@ -29,6 +29,12 @@ jobs:
         run: npm ci
       - name: Build Next.js
         run: npx next build
+      - name: Prepare static export for Pages
+        run: |
+          mkdir -p out
+          cp -r .next/server/app/* out/ 2>/dev/null || true
+          cp -r public/* out/ 2>/dev/null || true
+          touch out/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
