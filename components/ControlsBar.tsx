@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   Timer,
   LayoutList,
@@ -73,6 +74,7 @@ export default function ControlsBar({
   onToggleTimer,
   formattedTimeLeft,
 }: ControlsBarProps) {
+  const { t } = useLanguage();
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleFullscreen = () => {
@@ -110,7 +112,9 @@ export default function ControlsBar({
                     className="h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: tab.color }}
                   />
-                  <span className="text-2xs font-medium">{tab.label}</span>
+                  <span className="text-2xs font-medium">
+                    {t(`mood.${tab.id}`)}
+                  </span>
                   <span className="font-mono text-2xs tabular-nums opacity-60">
                     {count}
                   </span>
@@ -256,15 +260,16 @@ export default function ControlsBar({
               <HelpCircle size={16} />
             </button>
 
-            {/* 10. Buy Coffee */}
-            <button
-              type="button"
-              onClick={onOpenCoffee}
-              title="請我喝杯咖啡"
+            {/* 10. Buy Coffee / Reference */}
+            <a
+              href="https://meanwhile-cam.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t('btn.ref')}
               className="rounded-lg p-2 text-amber-400/80 transition-colors hover:bg-[#152228] hover:text-amber-300"
             >
               <Coffee size={16} />
-            </button>
+            </a>
           </div>
         </div>
       )}
@@ -278,12 +283,12 @@ export default function ControlsBar({
         {collapsed ? (
           <>
             <ChevronUp size={13} />
-            <span>展開設定列</span>
+            <span>{t('btn.expand')}</span>
           </>
         ) : (
           <>
             <ChevronDown size={13} />
-            <span>收起設定列</span>
+            <span>{t('btn.collapse')}</span>
           </>
         )}
       </button>

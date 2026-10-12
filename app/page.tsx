@@ -12,6 +12,7 @@ import TimeTable from '@/components/TimeTable';
 import HelpModal from '@/components/HelpModal';
 import SuggestModal from '@/components/SuggestModal';
 import CoffeeModal from '@/components/CoffeeModal';
+import { useLanguage, type Language } from '@/context/LanguageContext';
 import { computeCityConditions } from '@/lib/client-conditions';
 import { withBasePath } from '@/lib/base-path';
 import type { CamPoint } from '@/components/GlobeViewer';
@@ -27,6 +28,7 @@ const GlobeViewer = dynamic(() => import('@/components/GlobeViewer'), {
 });
 
 function HomeContent() {
+  const { lang, setLang, t } = useLanguage();
   const searchParams = useSearchParams();
   const queryCamId = searchParams.get('cam');
 
@@ -202,12 +204,10 @@ function HomeContent() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold tracking-tight text-[#e4ecee] sm:text-2xl drop-shadow-md">
-              此刻的世界
+              {t('app.title')}
             </h1>
             <p className="mt-1 max-w-xl text-xs sm:text-sm text-[#93a6ac] leading-relaxed">
-              {loadingWeather
-                ? '正在讀取全球天氣…'
-                : '挑一種天氣或時刻，在地球儀上選一個喜歡的城市陪伴你。'}
+              {loadingWeather ? t('app.loading_weather') : t('app.tagline')}
             </p>
           </div>
 
@@ -218,7 +218,7 @@ function HomeContent() {
                 href="/animalia?when=day&animal"
                 className="group inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/55 px-3 py-1 text-2xs font-medium text-white shadow-sm backdrop-blur-md transition-all hover:border-white/50 hover:bg-black/80"
               >
-                <span>全球動物現場</span>
+                <span>{t('nav.animal')}</span>
                 <span className="opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   ↗
                 </span>
@@ -227,7 +227,7 @@ function HomeContent() {
                 href="/vehicula"
                 className="group inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/55 px-3 py-1 text-2xs font-medium text-white shadow-sm backdrop-blur-md transition-all hover:border-white/50 hover:bg-black/80"
               >
-                <span>全球交通現場</span>
+                <span>{t('nav.vehicle')}</span>
                 <span className="opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   ↗
                 </span>
@@ -242,7 +242,8 @@ function HomeContent() {
               <select
                 aria-label="語言"
                 className="cursor-pointer appearance-none rounded-full border border-white/20 bg-black/55 py-1 pl-7 pr-3 text-2xs font-medium text-white shadow-sm backdrop-blur-md transition-all hover:border-white/50 hover:bg-black/80 outline-none"
-                defaultValue="zh-Hant"
+                value={lang}
+                onChange={(e) => setLang(e.target.value as Language)}
               >
                 <option value="zh-Hant" className="bg-[#0a1114] text-white">
                   繁體中文
@@ -339,9 +340,18 @@ function HomeContent() {
       <footer className="pointer-events-none absolute bottom-3 right-4 z-10 hidden items-center gap-3 lg:flex text-2xs text-[#93a6ac]">
         <p className="inline-flex items-center gap-2 rounded-full border border-[#1e2f36] bg-[#0a1114]/70 px-3 py-1 shadow-lg backdrop-blur-md">
           <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>歡迎來到 Meanwhile</span>
+          <span>{t('footer.welcome')}</span>
         </p>
-        <p>© 2026 Studio0808 智造實驗室 · All rights reserved.</p>
+        <p>{t('footer.rights')}</p>
+        <a
+          href="https://meanwhile-cam.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0a1114]/80 px-3 py-1 text-2xs text-amber-300 shadow-md backdrop-blur-md transition-all hover:bg-white/10 hover:text-amber-200"
+        >
+          <span>{t('btn.ref')}</span>
+          <span className="text-3xs opacity-80">↗</span>
+        </a>
       </footer>
     </main>
   );

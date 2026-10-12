@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Heart, ExternalLink, MapPin, Volume2, Radio } from 'lucide-react';
 import { withBasePath } from '@/lib/base-path';
+import { useLanguage } from '@/context/LanguageContext';
 import { CamPoint } from './GlobeViewer';
 
 interface CamModalProps {
@@ -18,6 +19,7 @@ export default function CamModal({
   isFavorite,
   onToggleFavorite,
 }: CamModalProps) {
+  const { lang, t } = useLanguage();
   const [videoId, setVideoId] = useState<string>('');
   const [loadingStream, setLoadingStream] = useState<boolean>(false);
 
@@ -120,7 +122,11 @@ export default function CamModal({
       {/* Description */}
       <div className="mt-3">
         <p className="text-xs leading-relaxed text-[#c3d0d4] line-clamp-3 hover:line-clamp-none transition-all">
-          {cam.description}
+          {lang === 'en'
+            ? cam.descriptionEn || cam.description
+            : lang === 'ja'
+            ? cam.descriptionJa || cam.description
+            : cam.description}
         </p>
       </div>
 

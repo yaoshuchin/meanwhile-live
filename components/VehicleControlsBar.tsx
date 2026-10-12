@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 import {
   Timer,
   LayoutList,
@@ -62,6 +63,7 @@ export default function VehicleControlsBar({
   onToggleTimer,
   formattedTimeLeft,
 }: VehicleControlsBarProps) {
+  const { t } = useLanguage();
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleFullscreen = () => {
@@ -268,21 +270,22 @@ export default function VehicleControlsBar({
             <button
               type="button"
               onClick={onOpenHelp}
-              title="說明"
+              title={t('btn.help')}
               className="rounded-xl p-2 hover:bg-slate-200/60"
             >
               <HelpCircle size={16} />
             </button>
 
-            {/* 9. Coffee */}
-            <button
-              type="button"
-              onClick={onOpenCoffee}
-              title="請我喝杯咖啡"
+            {/* 9. Coffee / Reference */}
+            <a
+              href="https://meanwhile-cam.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t('btn.ref')}
               className="rounded-xl p-2 hover:bg-slate-200/60 text-amber-600"
             >
               <Coffee size={16} />
-            </button>
+            </a>
           </div>
         </div>
       )}
@@ -296,12 +299,12 @@ export default function VehicleControlsBar({
         {collapsed ? (
           <>
             <ChevronUp size={12} />
-            <span>展開設定列</span>
+            <span>{t('btn.expand')}</span>
           </>
         ) : (
           <>
             <ChevronDown size={12} />
-            <span>收起設定列</span>
+            <span>{t('btn.collapse')}</span>
           </>
         )}
       </button>

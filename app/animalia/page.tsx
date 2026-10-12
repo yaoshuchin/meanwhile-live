@@ -11,6 +11,7 @@ import AnimalControlsBar from '@/components/AnimalControlsBar';
 import AmbientMixer from '@/components/AmbientMixer';
 import HelpModal from '@/components/HelpModal';
 import CoffeeModal from '@/components/CoffeeModal';
+import { useLanguage, type Language } from '@/context/LanguageContext';
 import { computeAnimalConditions } from '@/lib/client-conditions';
 import { withBasePath } from '@/lib/base-path';
 import type { AnimalPoint } from '@/data/animals';
@@ -28,6 +29,7 @@ const AnimalGlobeViewer = dynamic(
 );
 
 function AnimaliaContent() {
+  const { lang, setLang, t } = useLanguage();
   const searchParams = useSearchParams();
   const rawAnimal = searchParams.get('animal');
   const queryAnimal = rawAnimal && rawAnimal !== '' ? rawAnimal : 'all';
@@ -209,20 +211,20 @@ function AnimaliaContent() {
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1.5">
             <h1 className="text-xl font-bold tracking-tight text-[#162a38] sm:text-2xl drop-shadow-sm">
-              全球動物現場 · Animalia Live
+              {t('animal.title')}
             </h1>
             <p className="text-xs sm:text-sm text-[#46657a]">
-              選一個現場，看看牠們此刻在做什麼。
+              {t('animal.subtitle')}
             </p>
 
             {/* Total and matched summary */}
             <div className="flex items-center gap-1.5 text-xs text-[#52778f]">
-              <span>{cameras.length} 個現場</span>
+              <span>{cameras.length} {t('animal.cams_count')}</span>
               <span>·</span>
               <span>
-                此刻符合條件的有{' '}
+                {t('animal.matched_count')}{' '}
                 <strong className="text-[#162a38]">
-                  {filteredCameras.length} 個
+                  {filteredCameras.length} {t('animal.cams_count')}
                 </strong>
               </span>
             </div>
@@ -305,7 +307,8 @@ function AnimaliaContent() {
               <select
                 aria-label="語言"
                 className="cursor-pointer appearance-none rounded-full border border-slate-700/30 bg-[#1e2f38]/90 py-1.5 pl-7 pr-3 text-2xs font-medium text-white shadow-md backdrop-blur-md outline-none"
-                defaultValue="zh-Hant"
+                value={lang}
+                onChange={(e) => setLang(e.target.value as Language)}
               >
                 <option value="zh-Hant" className="bg-[#1e2f38] text-white">
                   繁體中文
@@ -389,16 +392,18 @@ function AnimaliaContent() {
       <footer className="pointer-events-none absolute bottom-3 right-4 z-20 hidden items-center gap-4 lg:flex text-2xs text-[#46657a]">
         <div className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 shadow-sm backdrop-blur-md">
           <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>累積造訪次數：30,130 次</span>
+          <span>{t('footer.visits')}</span>
         </div>
-        <p>© 2026 Studio0808 智造實驗室 · All rights reserved.</p>
-        <button
-          onClick={() => setCoffeeOpen(true)}
-          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 text-2xs text-slate-700 shadow-sm backdrop-blur-md hover:bg-white"
+        <p>{t('footer.rights')}</p>
+        <a
+          href="https://meanwhile-cam.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 text-2xs text-amber-700 shadow-sm backdrop-blur-md hover:bg-white"
         >
-          <Coffee size={13} className="text-amber-500" />
-          <span>請我喝杯咖啡</span>
-        </button>
+          <span>{t('btn.ref')}</span>
+          <span className="text-3xs opacity-80">↗</span>
+        </a>
       </footer>
     </main>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './three-polyfill';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export const metadata: Metadata = {
   title: 'Meanwhile · 此刻的世界',
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="zh-Hant" className="dark">
       <body className="bg-[#05090b] text-[#e4ecee] antialiased">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
