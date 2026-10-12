@@ -337,19 +337,19 @@ function HomeContent() {
       />
 
       {/* Footer Info */}
-      <footer className="pointer-events-none absolute bottom-3 right-4 z-10 hidden items-center gap-3 lg:flex text-2xs text-[#93a6ac]">
-        <p className="inline-flex items-center gap-2 rounded-full border border-[#1e2f36] bg-[#0a1114]/70 px-3 py-1 shadow-lg backdrop-blur-md">
+      <footer className="pointer-events-none absolute bottom-3 right-4 z-20 flex items-center gap-2 sm:gap-3 text-2xs text-[#93a6ac]">
+        <p className="hidden lg:inline-flex items-center gap-2 rounded-full border border-[#1e2f36] bg-[#0a1114]/70 px-3 py-1 shadow-lg backdrop-blur-md">
           <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span>{t('footer.welcome')}</span>
         </p>
-        <p>{t('footer.rights')}</p>
+        <p className="hidden sm:block">{t('footer.rights')}</p>
         <a
           href="https://meanwhile-cam.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0a1114]/80 px-3 py-1 text-2xs text-amber-300 shadow-md backdrop-blur-md transition-all hover:bg-white/10 hover:text-amber-200"
+          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-[#0a1114]/85 px-3 py-1 text-2xs font-medium text-amber-300 shadow-md backdrop-blur-md transition-all hover:bg-white/10 hover:text-amber-200"
         >
-          <span>{t('btn.ref')}</span>
+          <span>參考自李佳恩</span>
           <span className="text-3xs opacity-80">↗</span>
         </a>
       </footer>

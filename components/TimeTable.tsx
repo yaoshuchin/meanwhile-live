@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 import { ChevronLeft, ChevronRight, X, Clock, Sun, Moon, Cloud, CloudRain, CloudSnow, Sunset } from 'lucide-react';
 import type { CamPoint } from './GlobeViewer';
 
@@ -19,6 +20,8 @@ export default function TimeTable({
   activeCam,
   onSelectCam,
 }: TimeTableProps) {
+  const { t } = useLanguage();
+
   // Sort cameras by local time
   const sortedCameras = useMemo(() => {
     return [...cameras].sort((a, b) => {
@@ -78,9 +81,9 @@ export default function TimeTable({
       <div className="flex items-center justify-between border-b border-[#1e2f36] pb-3">
         <div className="flex items-center gap-2">
           <Clock size={16} className="text-[#4fa8d8]" />
-          <h2 className="text-sm font-bold text-[#e4ecee]">時刻表</h2>
+          <h2 className="text-sm font-bold text-[#e4ecee]">{t('btn.timetable')}</h2>
           <span className="rounded-full bg-[#1e343d] px-2 py-0.5 text-3xs text-[#93a6ac]">
-            依當地時間
+            {t('animal.by_time')}
           </span>
         </div>
         <button
@@ -93,7 +96,7 @@ export default function TimeTable({
 
       {/* Prev / Next Shortcuts */}
       <div className="my-2.5 flex items-center justify-between rounded-lg bg-[#0d161a] px-3 py-1.5 text-2xs text-[#93a6ac]">
-        <span>← → 換地方</span>
+        <span>{t('animal.switch_cam')}</span>
         <div className="flex items-center gap-1">
           <button
             onClick={handlePrev}

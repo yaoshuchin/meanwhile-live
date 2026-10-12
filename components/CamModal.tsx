@@ -46,13 +46,13 @@ export default function CamModal({
   if (!cam) return null;
 
   const weatherBadge = {
-    clear: '☀️ 陽光普照',
-    overcast: '☁️ 陰天',
-    raining: '🌧️ 正在下雨',
-    snowing: '❄️ 正在下雪',
-    golden: '🌅 日出日落',
-    night: '🌙 此刻深夜',
-  }[cam.condition] || '🌤️ 晴朗';
+    clear: `☀️ ${t('mood.clear')}`,
+    overcast: `☁️ ${t('mood.overcast')}`,
+    raining: `🌧️ ${t('mood.raining')}`,
+    snowing: `❄️ ${t('mood.snowing')}`,
+    golden: `🌅 ${t('mood.golden')}`,
+    night: `🌙 ${t('mood.night')}`,
+  }[cam.condition] || `🌤️ ${t('mood.clear')}`;
 
   return (
     <div className="absolute right-4 top-20 z-40 w-96 max-w-[calc(100vw-32px)] flex flex-col overflow-hidden rounded-xl border border-[#1e2f36] bg-[#0a1114]/90 p-4 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-right-4 duration-300">
@@ -72,7 +72,7 @@ export default function CamModal({
             </span>
           </div>
           <div className="mt-1 flex items-center gap-2 text-2xs text-[#93a6ac] font-mono">
-            <span>當地 {cam.localTime}</span>
+            <span>{t('modal.local_time')} {cam.localTime}</span>
             <span>·</span>
             <span>{cam.temperatureC}°C</span>
             <span>·</span>
@@ -143,7 +143,7 @@ export default function CamModal({
           className="flex items-center gap-1 text-[#4fa8d8] hover:underline"
         >
           <MapPin size={12} />
-          <span>地圖</span>
+          <span>{t('modal.map')}</span>
         </a>
       </div>
     </div>

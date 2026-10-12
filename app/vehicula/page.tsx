@@ -389,19 +389,19 @@ function VehiculaContent() {
       />
 
       {/* Footer Info Matching Screenshot */}
-      <footer className="pointer-events-none absolute bottom-3 right-4 z-20 hidden items-center gap-4 lg:flex text-2xs text-[#46657a]">
-        <div className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 shadow-sm backdrop-blur-md">
+      <footer className="pointer-events-none absolute bottom-3 right-4 z-20 flex items-center gap-2 sm:gap-4 text-2xs text-[#46657a]">
+        <div className="pointer-events-auto hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 shadow-sm backdrop-blur-md">
           <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>{t('footer.visits')}</span>
         </div>
-        <p>{t('footer.rights')}</p>
+        <p className="hidden md:block">{t('footer.rights')}</p>
         <a
           href="https://meanwhile-cam.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 text-2xs text-amber-700 shadow-sm backdrop-blur-md hover:bg-white"
+          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/90 px-3 py-1 text-2xs font-medium text-amber-700 shadow-sm backdrop-blur-md hover:bg-white"
         >
-          <span>{t('btn.ref')}</span>
+          <span>參考自李佳恩</span>
           <span className="text-3xs opacity-80">↗</span>
         </a>
       </footer>
